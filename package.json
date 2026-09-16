@@ -1,7 +1,7 @@
 {
 	"name": "linearis",
 	"version": "1.0.0",
-	"description": "Adds VS Code-style line numbers to Obsidian notes in editor and reading mode.",
+	"description": "Linearis: VS Code-style source-line gutters for Obsidian notes in editor and reading mode.",
 	"main": "main.js",
 	"type": "module",
 	"scripts": {
@@ -13,7 +13,7 @@
 	"keywords": [
 		"obsidian",
 		"plugin",
-		"line-numbers"
+		"linearis"
 	],
 	"license": "MIT",
 	"devDependencies": {

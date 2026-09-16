@@ -1,22 +1,22 @@
 import { MarkdownView, Plugin, WorkspaceLeaf } from "obsidian";
 import type { Extension } from "@codemirror/state";
-import { buildEditorLineNumberExtension } from "./editor-line-numbers";
-import { ReadingLineNumberManager } from "./reading-line-numbers";
+import { buildEditorLinearisExtension } from "./editor-linearis";
+import { ReadingLinearisManager } from "./reading-linearis";
 import {
-	AddLineNumbersSettingTab,
+	LinearisSettingTab,
 	DEFAULT_SETTINGS,
 	cyclePlacement,
 	normalizeSettings,
 	placementToOptions,
-	type AddLineNumbersSettings,
-	type LineNumberPlacement,
+	type LinearisSettings,
+	type LinearisPlacement,
 } from "./settings";
 
-export default class AddLineNumbersPlugin extends Plugin {
-	settings: AddLineNumbersSettings = { ...DEFAULT_SETTINGS };
+export default class LinearisPlugin extends Plugin {
+	settings: LinearisSettings = { ...DEFAULT_SETTINGS };
 
 	private editorExtensions: Extension[] = [];
-	private readingManager = new ReadingLineNumberManager();
+	private readingManager = new ReadingLinearisManager();
 
 	async onload(): Promise<void> {
 		await this.loadSettings();
@@ -30,7 +30,7 @@ export default class AddLineNumbersPlugin extends Plugin {
 			this.readingManager.registerPostProcessor(el, ctx);
 		});
 
-		this.addSettingTab(new AddLineNumbersSettingTab(this.app, this));
+		this.addSettingTab(new LinearisSettingTab(this.app, this));
 		this.registerCommands();
 
 		this.registerEvent(
@@ -79,8 +79,8 @@ export default class AddLineNumbersPlugin extends Plugin {
 
 	private registerCommands(): void {
 		this.addCommand({
-			id: "cycle-editing-line-numbers",
-			name: "Cycle editing line numbers (left / right / off)",
+			id: "cycle-editing-linearis",
+			name: "Cycle editing Linearis (left / right / off)",
 			callback: async () => {
 				this.settings.editing = cyclePlacement(this.settings.editing);
 				await this.saveSettings();
@@ -89,8 +89,8 @@ export default class AddLineNumbersPlugin extends Plugin {
 		});
 
 		this.addCommand({
-			id: "cycle-reading-line-numbers",
-			name: "Cycle reading line numbers (left / right / off)",
+			id: "cycle-reading-linearis",
+			name: "Cycle reading Linearis (left / right / off)",
 			callback: async () => {
 				this.settings.reading = cyclePlacement(this.settings.reading);
 				await this.saveSettings();
@@ -98,17 +98,17 @@ export default class AddLineNumbersPlugin extends Plugin {
 			},
 		});
 
-		const modes: Array<{ key: keyof AddLineNumbersSettings; label: string }> = [
+		const modes: Array<{ key: keyof LinearisSettings; label: string }> = [
 			{ key: "editing", label: "editing" },
 			{ key: "reading", label: "reading" },
 		];
-		const placements: LineNumberPlacement[] = ["left", "right", "off"];
+		const placements: LinearisPlacement[] = ["left", "right", "off"];
 
 		for (const mode of modes) {
 			for (const placement of placements) {
 				this.addCommand({
-					id: `set-${mode.key}-line-numbers-${placement}`,
-					name: `Set ${mode.label} line numbers: ${placement}`,
+					id: `set-${mode.key}-linearis-${placement}`,
+					name: `Set ${mode.label} Linearis: ${placement}`,
 					callback: async () => {
 						this.settings[mode.key] = placement;
 						await this.saveSettings();
@@ -121,7 +121,7 @@ export default class AddLineNumbersPlugin extends Plugin {
 
 	private applyEditorExtensions(): void {
 		this.editorExtensions.length = 0;
-		const extension = buildEditorLineNumberExtension(
+		const extension = buildEditorLinearisExtension(
 			placementToOptions(this.settings.editing),
 		);
 		if (Array.isArray(extension)) {

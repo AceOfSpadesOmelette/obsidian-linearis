@@ -1,4 +1,4 @@
-import type { LineNumberSide } from "./types";
+import type { LinearisSide } from "./types";
 import {
 	cullToBand,
 	dedupeMarkers,
@@ -6,14 +6,14 @@ import {
 	type LineMarkerEntry,
 } from "./line-marker-model";
 
-export const GUTTER_CLASS = "aln-gutter";
-export const LINE_NUMBER_CLASS = "aln-line-number";
-export const ENABLED_CLASS = "aln-enabled";
-export const SIDE_LEFT_CLASS = "aln-side-left";
-export const SIDE_RIGHT_CLASS = "aln-side-right";
+export const GUTTER_CLASS = "linearis-gutter";
+export const MARKER_CLASS = "linearis-marker";
+export const ENABLED_CLASS = "linearis-enabled";
+export const SIDE_LEFT_CLASS = "linearis-side-left";
+export const SIDE_RIGHT_CLASS = "linearis-side-right";
 
 export interface GutterOverlayOptions {
-	side: LineNumberSide;
+	side: LinearisSide;
 	enabled: boolean;
 }
 
@@ -87,15 +87,15 @@ export class GutterOverlay {
 				? markers.reduce((max, m) => Math.max(max, m.line), 1)
 				: entries.reduce((max, m) => Math.max(max, m.line), 1);
 		const digits = gutterDigits(maxLine);
-		this.el.style.setProperty("--aln-digits", String(digits));
+		this.el.style.setProperty("--linearis-digits", String(digits));
 		if (this.host) {
-			this.host.style.setProperty("--aln-digits", String(digits));
+			this.host.style.setProperty("--linearis-digits", String(digits));
 		}
 
 		const fragment = document.createDocumentFragment();
 		for (const marker of markers) {
 			const node = document.createElement("div");
-			node.className = LINE_NUMBER_CLASS;
+			node.className = MARKER_CLASS;
 			node.textContent = String(marker.line);
 			node.style.top = `${marker.top}px`;
 			fragment.appendChild(node);

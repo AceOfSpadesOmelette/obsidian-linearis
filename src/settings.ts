@@ -1,10 +1,10 @@
 import { App, PluginSettingTab, Setting } from "obsidian";
-import type AddLineNumbersPlugin from "./main";
+import type LinearisPlugin from "./main";
 import {
 	DEFAULT_SETTINGS,
-	type AddLineNumbersSettings,
-	type LineNumberPlacement,
-	type LineNumberSide,
+	type LinearisSettings,
+	type LinearisPlacement,
+	type LinearisSide,
 } from "./types";
 
 export {
@@ -12,17 +12,17 @@ export {
 	normalizeSettings,
 	placementToOptions,
 	cyclePlacement,
-	type AddLineNumbersSettings,
-	type LineNumberPlacement,
-	type LineNumberSide,
+	type LinearisSettings,
+	type LinearisPlacement,
+	type LinearisSide,
 } from "./types";
 
 function placementDropdown(
 	containerEl: HTMLElement,
-	plugin: AddLineNumbersPlugin,
+	plugin: LinearisPlugin,
 	name: string,
 	desc: string,
-	key: keyof AddLineNumbersSettings,
+	key: keyof LinearisSettings,
 ): void {
 	new Setting(containerEl)
 		.setName(name)
@@ -34,7 +34,7 @@ function placementDropdown(
 				.addOption("off", "Off")
 				.setValue(plugin.settings[key])
 				.onChange(async (value: string) => {
-					const placement: LineNumberPlacement =
+					const placement: LinearisPlacement =
 						value === "right" ? "right" : value === "off" ? "off" : "left";
 					plugin.settings[key] = placement;
 					await plugin.saveSettings();
@@ -43,10 +43,10 @@ function placementDropdown(
 		);
 }
 
-export class AddLineNumbersSettingTab extends PluginSettingTab {
-	plugin: AddLineNumbersPlugin;
+export class LinearisSettingTab extends PluginSettingTab {
+	plugin: LinearisPlugin;
 
-	constructor(app: App, plugin: AddLineNumbersPlugin) {
+	constructor(app: App, plugin: LinearisPlugin) {
 		super(app, plugin);
 		this.plugin = plugin;
 	}
@@ -55,13 +55,13 @@ export class AddLineNumbersSettingTab extends PluginSettingTab {
 		const { containerEl } = this;
 		containerEl.empty();
 
-		containerEl.createEl("h2", { text: "Add Line Numbers" });
+		containerEl.createEl("h2", { text: "Linearis" });
 
 		placementDropdown(
 			containerEl,
 			this.plugin,
 			"Editing mode",
-			"Line numbers while editing (Live Preview / source).",
+			"Linearis while editing (Live Preview / source).",
 			"editing",
 		);
 
@@ -69,7 +69,7 @@ export class AddLineNumbersSettingTab extends PluginSettingTab {
 			containerEl,
 			this.plugin,
 			"Reading mode",
-			"Line numbers while reading (preview).",
+			"Linearis while reading (preview).",
 			"reading",
 		);
 	}

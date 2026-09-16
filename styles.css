@@ -1,78 +1,78 @@
-/* Add Line Numbers — unified edge-pinned gutter for editor and reading mode */
+/* Linearis — unified edge-pinned gutter for editor and reading mode */
 
 :root {
-	--aln-digits: 2;
-	--aln-gutter-width: calc(var(--aln-digits) * 1ch + 1.75em);
-	--aln-border-gap: 0.85em;
-	--aln-reading-balance: 1.25em;
-	--aln-gutter-color: var(--text-faint, var(--text-muted));
-	--aln-gutter-font-size: var(--font-ui-smaller, 0.85em);
-	--aln-gutter-opacity: 0.45;
-	--aln-gutter-font: var(--font-monospace, var(--font-text));
+	--linearis-digits: 2;
+	--linearis-gutter-width: calc(var(--linearis-digits) * 1ch + 1.75em);
+	--linearis-border-gap: 0.85em;
+	--linearis-reading-balance: 1.25em;
+	--linearis-gutter-color: var(--text-faint, var(--text-muted));
+	--linearis-gutter-font-size: var(--font-ui-smaller, 0.85em);
+	--linearis-gutter-opacity: 0.45;
+	--linearis-gutter-font: var(--font-monospace, var(--font-text));
 }
 
 /* ---------- Host containers ---------- */
 
-.markdown-preview-view.aln-enabled,
-.cm-editor.aln-enabled {
+.markdown-preview-view.linearis-enabled,
+.cm-editor.linearis-enabled {
 	position: relative !important;
 	box-sizing: border-box;
 }
 
 /* Editor: margin + negative gutter margin (approved layout) */
-.cm-editor.aln-enabled.aln-side-left {
-	margin-left: var(--aln-gutter-width) !important;
+.cm-editor.linearis-enabled.linearis-side-left {
+	margin-left: var(--linearis-gutter-width) !important;
 	margin-right: 0 !important;
 	padding-left: 0 !important;
 	padding-right: 0 !important;
 }
 
-.cm-editor.aln-enabled.aln-side-right {
+.cm-editor.linearis-enabled.linearis-side-right {
 	margin-left: 0 !important;
-	margin-right: var(--aln-gutter-width) !important;
+	margin-right: var(--linearis-gutter-width) !important;
 	padding-left: 0 !important;
 	padding-right: 0 !important;
 }
 
 /* Reading: padding only — avoids overflow clipping of negative margins */
-.markdown-preview-view.aln-enabled.aln-side-left {
+.markdown-preview-view.linearis-enabled.linearis-side-left {
 	margin-left: 0 !important;
 	margin-right: 0 !important;
-	padding-left: var(--aln-gutter-width) !important;
-	padding-right: var(--aln-reading-balance) !important;
+	padding-left: var(--linearis-gutter-width) !important;
+	padding-right: var(--linearis-reading-balance) !important;
 }
 
-.markdown-preview-view.aln-enabled.aln-side-right {
+.markdown-preview-view.linearis-enabled.linearis-side-right {
 	margin-left: 0 !important;
 	margin-right: 0 !important;
-	padding-left: var(--aln-reading-balance) !important;
-	padding-right: var(--aln-gutter-width) !important;
+	padding-left: var(--linearis-reading-balance) !important;
+	padding-right: var(--linearis-gutter-width) !important;
 }
 
 /* ---------- Shared gutter overlay ---------- */
 
-.aln-gutter {
+.linearis-gutter {
 	position: absolute;
 	top: 0;
 	bottom: 0;
-	width: var(--aln-gutter-width);
+	width: var(--linearis-gutter-width);
 	overflow: hidden;
 	pointer-events: none;
 	z-index: 6;
-	font-family: var(--aln-gutter-font);
-	font-size: var(--aln-gutter-font-size);
-	color: var(--aln-gutter-color);
-	opacity: var(--aln-gutter-opacity);
+	font-family: var(--linearis-gutter-font);
+	font-size: var(--linearis-gutter-font-size);
+	color: var(--linearis-gutter-color);
+	opacity: var(--linearis-gutter-opacity);
 	user-select: none;
 	box-sizing: border-box;
 	background: transparent;
 }
 
 /* Editor left: sit in the reserved margin strip */
-.cm-editor .aln-gutter.aln-side-left {
+.cm-editor .linearis-gutter.linearis-side-left {
 	left: 0;
 	right: auto;
-	margin-left: calc(-1 * var(--aln-gutter-width));
+	margin-left: calc(-1 * var(--linearis-gutter-width));
 	margin-right: 0;
 	padding-left: 0.35em;
 	padding-right: 0;
@@ -80,18 +80,18 @@
 }
 
 /* Editor right: sit in the reserved margin strip */
-.cm-editor .aln-gutter.aln-side-right {
+.cm-editor .linearis-gutter.linearis-side-right {
 	left: auto;
 	right: 0;
 	margin-left: 0;
-	margin-right: calc(-1 * var(--aln-gutter-width));
+	margin-right: calc(-1 * var(--linearis-gutter-width));
 	padding-left: 0;
 	padding-right: 0.35em;
 	border-left: 1px solid var(--background-modifier-border);
 }
 
 /* Reading left: inside padding box, no negative margin */
-.markdown-preview-view .aln-gutter.aln-side-left {
+.markdown-preview-view .linearis-gutter.linearis-side-left {
 	left: 0;
 	right: auto;
 	margin-left: 0;
@@ -102,7 +102,7 @@
 }
 
 /* Reading right: inside padding box */
-.markdown-preview-view .aln-gutter.aln-side-right {
+.markdown-preview-view .linearis-gutter.linearis-side-right {
 	left: auto;
 	right: 0;
 	margin-left: 0;
@@ -113,7 +113,7 @@
 }
 
 /* Absolute markers ignore gutter padding — inset from the divider here */
-.aln-line-number {
+.linearis-marker {
 	position: absolute;
 	height: 1.2em;
 	line-height: 1.2em;
@@ -122,14 +122,14 @@
 	transform: translateY(0);
 }
 
-.aln-gutter.aln-side-left .aln-line-number {
+.linearis-gutter.linearis-side-left .linearis-marker {
 	left: 0;
-	right: var(--aln-border-gap);
+	right: var(--linearis-border-gap);
 	text-align: right;
 }
 
-.aln-gutter.aln-side-right .aln-line-number {
-	left: var(--aln-border-gap);
+.linearis-gutter.linearis-side-right .linearis-marker {
+	left: var(--linearis-border-gap);
 	right: 0;
 	text-align: left;
 }
@@ -137,6 +137,6 @@
 /* ---------- Mobile ---------- */
 
 .is-mobile {
-	--aln-gutter-width: calc(var(--aln-digits) * 1ch + 0.85em);
-	--aln-gutter-font-size: 0.75em;
+	--linearis-gutter-width: calc(var(--linearis-digits) * 1ch + 0.85em);
+	--linearis-gutter-font-size: 0.75em;
 }

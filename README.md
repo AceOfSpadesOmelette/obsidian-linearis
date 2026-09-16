@@ -1,10 +1,10 @@
-# Add Line Numbers
+# Linearis
 
 Obsidian plugin that shows **source line numbers** in both **editing** and **reading** mode.
 
 ## Features
 
-- Toggle line numbers on or off
+- Toggle Linearis on or off
 - Place the gutter on the **left** or **right**
 - Editor mode uses CodeMirror logical/document lines (blank lines included; wrapped lines share one number)
 - Reading mode maps numbers to Markdown **source** lines via section info (multi-line blocks such as tables may show distributed/gapped markers)
@@ -12,7 +12,7 @@ Obsidian plugin that shows **source line numbers** in both **editing** and **rea
 
 ## Settings
 
-Open **Settings → Community plugins → Add Line Numbers**:
+Open **Settings → Community plugins → Linearis**:
 
 | Setting | Description |
 | --- | --- |
@@ -21,9 +21,9 @@ Open **Settings → Community plugins → Add Line Numbers**:
 
 ## Commands
 
-- **Cycle editing line numbers (left / right / off)**
-- **Cycle reading line numbers (left / right / off)**
-- **Set editing/reading line numbers: left|right|off**
+- **Cycle editing Linearis (left / right / off)**
+- **Cycle reading Linearis (left / right / off)**
+- **Set editing/reading Linearis: left|right|off**
 
 ## Install (local development)
 
@@ -38,7 +38,7 @@ Open **Settings → Community plugins → Add Line Numbers**:
    npm run build
    ```
 
-3. In Obsidian: enable **Community plugins**, then enable **Add Line Numbers**.
+3. In Obsidian: enable **Community plugins**, then enable **Linearis**.
 
 For live reload while developing:
 
