@@ -29,6 +29,14 @@ function pointInRect(x: number, y: number, rect: DOMRect): boolean {
 }
 
 /**
+ * Nested CM editors (Live Preview table cells, embeds) must not get a gutter.
+ * Their documents start at line 1 and would paint numbers inside the cell.
+ */
+function isNestedCodeMirror(view: EditorView): boolean {
+	return Boolean(view.dom.parentElement?.closest(".cm-editor"));
+}
+
+/**
  * One ViewPlugin for both left and right. Markers use CM6 line-block tops so a
  * wrapped logical line yields exactly one number at its first visual row.
  */
@@ -38,10 +46,15 @@ function createEditorOverlayPlugin(): Extension {
 			overlay = new GutterOverlay();
 			private host: HTMLElement;
 			private raf: number | null = null;
-			private onScroll: () => void;
+			private onScroll: (() => void) | null = null;
+			private nested: boolean;
 
 			constructor(private readonly view: EditorView) {
 				this.host = view.dom;
+				this.nested = isNestedCodeMirror(view);
+				if (this.nested) {
+					return;
+				}
 				this.overlay.attach(this.host);
 				this.onScroll = () => this.schedule();
 				this.view.scrollDOM.addEventListener("scroll", this.onScroll, {
@@ -52,6 +65,9 @@ function createEditorOverlayPlugin(): Extension {
 			}
 
 			update(update: ViewUpdate): void {
+				if (this.nested) {
+					return;
+				}
 				if (
 					update.docChanged ||
 					update.viewportChanged ||
@@ -66,19 +82,31 @@ function createEditorOverlayPlugin(): Extension {
 			}
 
 			destroy(): void {
+				if (this.nested) {
+					this.overlay.destroy();
+					return;
+				}
 				if (this.raf !== null) {
 					cancelAnimationFrame(this.raf);
 				}
-				this.view.scrollDOM.removeEventListener("scroll", this.onScroll);
+				if (this.onScroll) {
+					this.view.scrollDOM.removeEventListener("scroll", this.onScroll);
+				}
 				this.overlay.destroy();
 			}
 
 			private applyOptions(): void {
+				if (this.nested) {
+					return;
+				}
 				const options = this.view.state.facet(editorLinearisOptions);
 				this.overlay.setOptions(options);
 			}
 
 			private schedule(): void {
+				if (this.nested) {
+					return;
+				}
 				if (this.raf !== null) {
 					cancelAnimationFrame(this.raf);
 				}
@@ -89,6 +117,9 @@ function createEditorOverlayPlugin(): Extension {
 			}
 
 			private sync(): void {
+				if (this.nested) {
+					return;
+				}
 				const options = this.view.state.facet(editorLinearisOptions);
 				if (!options.enabled) {
 					this.overlay.render([], 0, 0);

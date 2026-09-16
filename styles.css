@@ -134,6 +134,26 @@
 	text-align: left;
 }
 
+/* Nested editors (Live Preview table cells, embeds) must not show Linearis */
+.cm-table-widget .linearis-gutter,
+.cm-embed-block .linearis-gutter,
+.internal-embed .linearis-gutter,
+.markdown-embed .linearis-gutter,
+table .linearis-gutter {
+	display: none !important;
+}
+
+.cm-table-widget .cm-editor.linearis-enabled,
+.cm-embed-block .cm-editor.linearis-enabled,
+.internal-embed .cm-editor.linearis-enabled,
+.markdown-embed .cm-editor.linearis-enabled,
+table .cm-editor.linearis-enabled {
+	margin-left: 0 !important;
+	margin-right: 0 !important;
+	padding-left: 0 !important;
+	padding-right: 0 !important;
+}
+
 /* ---------- Mobile ---------- */
 
 .is-mobile {

@@ -1,7 +1,7 @@
 {
 	"id": "linearis",
 	"name": "Linearis",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"minAppVersion": "1.5.0",
 	"description": "Linearis: source-line gutters on the left or right of your notes in editor and reading mode.",
 	"author": "AceOfSpadesOmelette",
