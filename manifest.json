@@ -1,0 +1,9 @@
+{
+	"id": "linearis",
+	"name": "Add Line Numbers",
+	"version": "1.0.0",
+	"minAppVersion": "1.5.0",
+	"description": "Adds VS Code-style line numbers to the left or right of notes in editor and reading mode.",
+	"author": "Add Line Numbers",
+	"isDesktopOnly": false
+}

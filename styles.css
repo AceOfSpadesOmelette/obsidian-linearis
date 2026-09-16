@@ -1,0 +1,142 @@
+/* Add Line Numbers — unified edge-pinned gutter for editor and reading mode */
+
+:root {
+	--aln-digits: 2;
+	--aln-gutter-width: calc(var(--aln-digits) * 1ch + 1.75em);
+	--aln-border-gap: 0.85em;
+	--aln-reading-balance: 1.25em;
+	--aln-gutter-color: var(--text-faint, var(--text-muted));
+	--aln-gutter-font-size: var(--font-ui-smaller, 0.85em);
+	--aln-gutter-opacity: 0.45;
+	--aln-gutter-font: var(--font-monospace, var(--font-text));
+}
+
+/* ---------- Host containers ---------- */
+
+.markdown-preview-view.aln-enabled,
+.cm-editor.aln-enabled {
+	position: relative !important;
+	box-sizing: border-box;
+}
+
+/* Editor: margin + negative gutter margin (approved layout) */
+.cm-editor.aln-enabled.aln-side-left {
+	margin-left: var(--aln-gutter-width) !important;
+	margin-right: 0 !important;
+	padding-left: 0 !important;
+	padding-right: 0 !important;
+}
+
+.cm-editor.aln-enabled.aln-side-right {
+	margin-left: 0 !important;
+	margin-right: var(--aln-gutter-width) !important;
+	padding-left: 0 !important;
+	padding-right: 0 !important;
+}
+
+/* Reading: padding only — avoids overflow clipping of negative margins */
+.markdown-preview-view.aln-enabled.aln-side-left {
+	margin-left: 0 !important;
+	margin-right: 0 !important;
+	padding-left: var(--aln-gutter-width) !important;
+	padding-right: var(--aln-reading-balance) !important;
+}
+
+.markdown-preview-view.aln-enabled.aln-side-right {
+	margin-left: 0 !important;
+	margin-right: 0 !important;
+	padding-left: var(--aln-reading-balance) !important;
+	padding-right: var(--aln-gutter-width) !important;
+}
+
+/* ---------- Shared gutter overlay ---------- */
+
+.aln-gutter {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: var(--aln-gutter-width);
+	overflow: hidden;
+	pointer-events: none;
+	z-index: 6;
+	font-family: var(--aln-gutter-font);
+	font-size: var(--aln-gutter-font-size);
+	color: var(--aln-gutter-color);
+	opacity: var(--aln-gutter-opacity);
+	user-select: none;
+	box-sizing: border-box;
+	background: transparent;
+}
+
+/* Editor left: sit in the reserved margin strip */
+.cm-editor .aln-gutter.aln-side-left {
+	left: 0;
+	right: auto;
+	margin-left: calc(-1 * var(--aln-gutter-width));
+	margin-right: 0;
+	padding-left: 0.35em;
+	padding-right: 0;
+	border-right: 1px solid var(--background-modifier-border);
+}
+
+/* Editor right: sit in the reserved margin strip */
+.cm-editor .aln-gutter.aln-side-right {
+	left: auto;
+	right: 0;
+	margin-left: 0;
+	margin-right: calc(-1 * var(--aln-gutter-width));
+	padding-left: 0;
+	padding-right: 0.35em;
+	border-left: 1px solid var(--background-modifier-border);
+}
+
+/* Reading left: inside padding box, no negative margin */
+.markdown-preview-view .aln-gutter.aln-side-left {
+	left: 0;
+	right: auto;
+	margin-left: 0;
+	margin-right: 0;
+	padding-left: 0.35em;
+	padding-right: 0;
+	border-right: 1px solid var(--background-modifier-border);
+}
+
+/* Reading right: inside padding box */
+.markdown-preview-view .aln-gutter.aln-side-right {
+	left: auto;
+	right: 0;
+	margin-left: 0;
+	margin-right: 0;
+	padding-left: 0;
+	padding-right: 0.35em;
+	border-left: 1px solid var(--background-modifier-border);
+}
+
+/* Absolute markers ignore gutter padding — inset from the divider here */
+.aln-line-number {
+	position: absolute;
+	height: 1.2em;
+	line-height: 1.2em;
+	white-space: nowrap;
+	box-sizing: border-box;
+	transform: translateY(0);
+}
+
+.aln-gutter.aln-side-left .aln-line-number {
+	left: 0;
+	right: var(--aln-border-gap);
+	text-align: right;
+}
+
+.aln-gutter.aln-side-right .aln-line-number {
+	left: var(--aln-border-gap);
+	right: 0;
+	text-align: left;
+}
+
+/* ---------- Mobile ---------- */
+
+.is-mobile {
+	--aln-gutter-width: calc(var(--aln-digits) * 1ch + 0.85em);
+	--aln-gutter-font-size: 0.75em;
+}
