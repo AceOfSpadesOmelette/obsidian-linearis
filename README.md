@@ -62,16 +62,14 @@ Ship these artifacts with a GitHub release:
 - `manifest.json`
 - `styles.css`
 
-## Development
+
+
+## Develop
 
 ```bash
 npm install
-npm test
 npm run build
+npm test
 ```
 
-Bump the plugin version with:
-
-```bash
-npm version patch
-```
+CI runs build + Jest on push/PR. Tag a version matching `manifest.json` (for example `1.0.0`) to create a draft GitHub release with `main.js`, `manifest.json`, and `styles.css` when present.

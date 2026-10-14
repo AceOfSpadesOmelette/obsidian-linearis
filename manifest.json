@@ -5,5 +5,6 @@
 	"minAppVersion": "1.5.0",
 	"description": "Linearis: source-line gutters on the left or right of your notes in editor and reading mode.",
 	"author": "AceOfSpadesOmelette",
+	"authorUrl": "https://github.com/AceOfSpadesOmelette",
 	"isDesktopOnly": false
 }
