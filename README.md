@@ -19,6 +19,8 @@ Open **Settings → Community plugins → Linearis**:
 | Editing mode | `Left`, `Right`, or `Off` while editing |
 | Reading mode | `Left`, `Right`, or `Off` while reading |
 
+**Export settings** and **Import settings** save or restore that configuration as `linearis-settings.json`.
+
 ## Commands
 
 - **Cycle editing Linearis (left / right / off)**

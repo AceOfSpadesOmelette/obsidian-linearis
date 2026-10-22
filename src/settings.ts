@@ -1,7 +1,9 @@
 import { App, PluginSettingTab, Setting } from "obsidian";
 import type LinearisPlugin from "./main";
+import { applyImportedSettings, mountSettingsFileControls } from "./settings-io";
 import {
 	DEFAULT_SETTINGS,
+	normalizeSettings,
 	type LinearisSettings,
 	type LinearisPlacement,
 	type LinearisSide,
@@ -72,5 +74,18 @@ export class LinearisSettingTab extends PluginSettingTab {
 			"Linearis while reading (preview).",
 			"reading",
 		);
+
+		mountSettingsFileControls(containerEl, {
+			filename: "linearis-settings.json",
+			pluginName: "Linearis",
+			getSettings: () => this.plugin.settings,
+			normalize: normalizeSettings,
+			onImported: async (next) => {
+				applyImportedSettings(this.plugin.settings, next);
+				await this.plugin.saveSettings();
+				this.plugin.applySettings();
+				this.display();
+			},
+		});
 	}
 }
