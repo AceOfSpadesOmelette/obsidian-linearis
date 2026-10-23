@@ -1,3 +1,4 @@
+import "obsidian";
 import type { LinearisSide } from "./types";
 import {
 	cullToBand,
@@ -11,6 +12,9 @@ export const MARKER_CLASS = "linearis-marker";
 export const ENABLED_CLASS = "linearis-enabled";
 export const SIDE_LEFT_CLASS = "linearis-side-left";
 export const SIDE_RIGHT_CLASS = "linearis-side-right";
+const HIDDEN_CLASS = "is-hidden";
+const PINNED_CLASS = "is-pinned";
+const STRETCHED_CLASS = "is-stretched";
 
 export interface GutterOverlayOptions {
 	side: LinearisSide;
@@ -27,9 +31,7 @@ export class GutterOverlay {
 	private options: GutterOverlayOptions = { enabled: true, side: "left" };
 
 	constructor() {
-		this.el = document.createElement("div");
-		this.el.className = GUTTER_CLASS;
-		this.el.setAttribute("aria-hidden", "true");
+		this.el = createDiv({ cls: GUTTER_CLASS, attr: { "aria-hidden": "true" } });
 	}
 
 	attach(host: HTMLElement): void {
@@ -38,9 +40,6 @@ export class GutterOverlay {
 		}
 		this.detach();
 		this.host = host;
-		if (getComputedStyle(host).position === "static") {
-			host.style.position = "relative";
-		}
 		host.appendChild(this.el);
 		this.applyClasses();
 	}
@@ -58,10 +57,8 @@ export class GutterOverlay {
 		this.applyClasses();
 		if (!this.options.enabled) {
 			this.el.replaceChildren();
-			this.el.style.display = "none";
-		} else {
-			this.el.style.display = "";
 		}
+		this.el.toggleClass(HIDDEN_CLASS, !this.options.enabled);
 	}
 
 	/**
@@ -74,11 +71,11 @@ export class GutterOverlay {
 	render(entries: LineMarkerEntry[], bandTop: number, bandBottom: number): void {
 		if (!this.options.enabled) {
 			this.el.replaceChildren();
-			this.el.style.display = "none";
+			this.el.addClass(HIDDEN_CLASS);
 			return;
 		}
 
-		this.el.style.display = "";
+		this.el.removeClass(HIDDEN_CLASS);
 		this.pinToVisibleBand();
 
 		const markers = cullToBand(dedupeMarkers(entries), bandTop, bandBottom);
@@ -86,18 +83,14 @@ export class GutterOverlay {
 			markers.length > 0
 				? markers.reduce((max, m) => Math.max(max, m.line), 1)
 				: entries.reduce((max, m) => Math.max(max, m.line), 1);
-		const digits = gutterDigits(maxLine);
-		this.el.style.setProperty("--linearis-digits", String(digits));
-		if (this.host) {
-			this.host.style.setProperty("--linearis-digits", String(digits));
-		}
+		const digits = String(gutterDigits(maxLine));
+		this.el.setCssProps({ "--linearis-digits": digits });
+		this.host?.setCssProps({ "--linearis-digits": digits });
 
-		const fragment = document.createDocumentFragment();
+		const fragment = createFragment();
 		for (const marker of markers) {
-			const node = document.createElement("div");
-			node.className = MARKER_CLASS;
-			node.textContent = String(marker.line);
-			node.style.top = `${marker.top}px`;
+			const node = createDiv({ cls: MARKER_CLASS, text: String(marker.line) });
+			node.setCssStyles({ top: `${marker.top}px` });
 			fragment.appendChild(node);
 		}
 		this.el.replaceChildren(fragment);
@@ -118,13 +111,16 @@ export class GutterOverlay {
 		}
 		const scrolls = this.host.scrollHeight > this.host.clientHeight + 1;
 		if (scrolls) {
-			this.el.style.top = `${this.host.scrollTop}px`;
-			this.el.style.bottom = "auto";
-			this.el.style.height = `${this.host.clientHeight}px`;
+			this.el.addClass(PINNED_CLASS);
+			this.el.removeClass(STRETCHED_CLASS);
+			this.el.setCssStyles({
+				top: `${this.host.scrollTop}px`,
+				height: `${this.host.clientHeight}px`,
+			});
 		} else {
-			this.el.style.top = "0";
-			this.el.style.bottom = "0";
-			this.el.style.height = "";
+			this.el.addClass(STRETCHED_CLASS);
+			this.el.removeClass(PINNED_CLASS);
+			this.el.setCssStyles({ top: "", height: "" });
 		}
 	}
 

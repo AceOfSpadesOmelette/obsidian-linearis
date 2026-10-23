@@ -56,8 +56,8 @@ export class ReadingLinearisManager {
 	}
 
 	registerPostProcessor(el: HTMLElement, ctx: MarkdownPostProcessorContext): void {
-		const targets = [el, el.parentElement].filter(
-			(node): node is HTMLElement => node instanceof HTMLElement,
+		const targets = [el, el.parentElement].filter((node): node is HTMLElement =>
+			node?.instanceOf(HTMLElement) ?? false,
 		);
 
 		for (const target of targets) {
@@ -113,7 +113,7 @@ export class ReadingLinearisManager {
 		handle.resizeObserver.disconnect();
 		handle.mutationObserver.disconnect();
 		if (handle.raf !== null) {
-			cancelAnimationFrame(handle.raf);
+			window.cancelAnimationFrame(handle.raf);
 		}
 		handle.container.removeEventListener("scroll", handle.onScroll);
 		handle.overlay.destroy();
@@ -159,14 +159,14 @@ export class ReadingLinearisManager {
 		resizeObserver.observe(container);
 
 		const sizer = container.querySelector(".markdown-preview-sizer");
-		if (sizer instanceof HTMLElement) {
+		if (sizer?.instanceOf(HTMLElement)) {
 			resizeObserver.observe(sizer);
 		}
 
 		const mutationObserver = new MutationObserver((mutations) => {
 			const relevant = mutations.some((mutation) => {
 				const target = mutation.target;
-				if (target instanceof Element && target.closest(".linearis-gutter")) {
+				if (target.instanceOf(Element) && target.closest(".linearis-gutter")) {
 					return false;
 				}
 				return true;
@@ -196,10 +196,8 @@ export class ReadingLinearisManager {
 
 	private findPreviewContainer(view: MarkdownView): HTMLElement | null {
 		return (
-			(view.previewMode?.containerEl?.querySelector(
-				".markdown-preview-view",
-			) as HTMLElement | null) ??
-			(view.contentEl.querySelector(".markdown-preview-view") as HTMLElement | null)
+			view.previewMode?.containerEl?.querySelector<HTMLElement>(".markdown-preview-view") ??
+			view.contentEl.querySelector<HTMLElement>(".markdown-preview-view")
 		);
 	}
 
@@ -217,9 +215,9 @@ export class ReadingLinearisManager {
 
 	private queue(handle: PreviewHandles): void {
 		if (handle.raf !== null) {
-			cancelAnimationFrame(handle.raf);
+			window.cancelAnimationFrame(handle.raf);
 		}
-		handle.raf = requestAnimationFrame(() => {
+		handle.raf = window.requestAnimationFrame(() => {
 			handle.raf = null;
 			this.render(handle);
 		});
@@ -235,9 +233,7 @@ export class ReadingLinearisManager {
 			return;
 		}
 
-		const sizer =
-			(container.querySelector(".markdown-preview-sizer") as HTMLElement | null) ??
-			container;
+		const sizer = container.querySelector<HTMLElement>(".markdown-preview-sizer") ?? container;
 		const starts = this.collectSectionStarts(sizer);
 		const hostRect = container.getBoundingClientRect();
 		const docText = view.getViewData();
@@ -270,7 +266,7 @@ export class ReadingLinearisManager {
 			candidates.length > 0
 				? Array.from(candidates)
 				: Array.from(sizer.children).filter(
-						(node): node is HTMLElement => node instanceof HTMLElement,
+						(node): node is HTMLElement => node.instanceOf(HTMLElement),
 					);
 
 		for (const el of nodes) {

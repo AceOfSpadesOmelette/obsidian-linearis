@@ -87,7 +87,7 @@ function createEditorOverlayPlugin(): Extension {
 					return;
 				}
 				if (this.raf !== null) {
-					cancelAnimationFrame(this.raf);
+					window.cancelAnimationFrame(this.raf);
 				}
 				if (this.onScroll) {
 					this.view.scrollDOM.removeEventListener("scroll", this.onScroll);
@@ -108,9 +108,9 @@ function createEditorOverlayPlugin(): Extension {
 					return;
 				}
 				if (this.raf !== null) {
-					cancelAnimationFrame(this.raf);
+					window.cancelAnimationFrame(this.raf);
 				}
-				this.raf = requestAnimationFrame(() => {
+				this.raf = window.requestAnimationFrame(() => {
 					this.raf = null;
 					this.sync();
 				});

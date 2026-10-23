@@ -79,8 +79,8 @@ export default class LinearisPlugin extends Plugin {
 
 	private registerCommands(): void {
 		this.addCommand({
-			id: "cycle-editing-linearis",
-			name: "Cycle editing Linearis (left / right / off)",
+			id: "cycle-editing-placement",
+			name: "Cycle editing placement (left / right / off)",
 			callback: async () => {
 				this.settings.editing = cyclePlacement(this.settings.editing);
 				await this.saveSettings();
@@ -89,8 +89,8 @@ export default class LinearisPlugin extends Plugin {
 		});
 
 		this.addCommand({
-			id: "cycle-reading-linearis",
-			name: "Cycle reading Linearis (left / right / off)",
+			id: "cycle-reading-placement",
+			name: "Cycle reading placement (left / right / off)",
 			callback: async () => {
 				this.settings.reading = cyclePlacement(this.settings.reading);
 				await this.saveSettings();
@@ -107,8 +107,8 @@ export default class LinearisPlugin extends Plugin {
 		for (const mode of modes) {
 			for (const placement of placements) {
 				this.addCommand({
-					id: `set-${mode.key}-linearis-${placement}`,
-					name: `Set ${mode.label} Linearis: ${placement}`,
+					id: `set-${mode.key}-${placement}`,
+					name: `Set ${mode.label} placement: ${placement}`,
 					callback: async () => {
 						this.settings[mode.key] = placement;
 						await this.saveSettings();
@@ -121,14 +121,9 @@ export default class LinearisPlugin extends Plugin {
 
 	private applyEditorExtensions(): void {
 		this.editorExtensions.length = 0;
-		const extension = buildEditorLinearisExtension(
-			placementToOptions(this.settings.editing),
+		this.editorExtensions.push(
+			buildEditorLinearisExtension(placementToOptions(this.settings.editing)),
 		);
-		if (Array.isArray(extension)) {
-			this.editorExtensions.push(...extension);
-		} else {
-			this.editorExtensions.push(extension);
-		}
 		this.app.workspace.updateOptions();
 	}
 

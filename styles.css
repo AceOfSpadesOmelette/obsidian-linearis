@@ -13,43 +13,57 @@
 
 /* ---------- Host containers ---------- */
 
-.markdown-preview-view.linearis-enabled,
-.cm-editor.linearis-enabled {
-	position: relative !important;
+.workspace-leaf-content .markdown-preview-view.linearis-enabled,
+.workspace-leaf-content .cm-editor.linearis-enabled {
+	position: relative;
 	box-sizing: border-box;
 }
 
 /* Editor: margin + negative gutter margin (approved layout) */
-.cm-editor.linearis-enabled.linearis-side-left {
-	margin-left: var(--linearis-gutter-width) !important;
-	margin-right: 0 !important;
-	padding-left: 0 !important;
-	padding-right: 0 !important;
+.workspace-leaf-content .cm-editor.linearis-enabled.linearis-side-left {
+	margin-left: var(--linearis-gutter-width);
+	margin-right: 0;
+	padding-left: 0;
+	padding-right: 0;
 }
 
-.cm-editor.linearis-enabled.linearis-side-right {
-	margin-left: 0 !important;
-	margin-right: var(--linearis-gutter-width) !important;
-	padding-left: 0 !important;
-	padding-right: 0 !important;
+.workspace-leaf-content .cm-editor.linearis-enabled.linearis-side-right {
+	margin-left: 0;
+	margin-right: var(--linearis-gutter-width);
+	padding-left: 0;
+	padding-right: 0;
 }
 
 /* Reading: padding only — avoids overflow clipping of negative margins */
-.markdown-preview-view.linearis-enabled.linearis-side-left {
-	margin-left: 0 !important;
-	margin-right: 0 !important;
-	padding-left: var(--linearis-gutter-width) !important;
-	padding-right: var(--linearis-reading-balance) !important;
+.workspace-leaf-content .markdown-preview-view.linearis-enabled.linearis-side-left {
+	margin-left: 0;
+	margin-right: 0;
+	padding-left: var(--linearis-gutter-width);
+	padding-right: var(--linearis-reading-balance);
 }
 
-.markdown-preview-view.linearis-enabled.linearis-side-right {
-	margin-left: 0 !important;
-	margin-right: 0 !important;
-	padding-left: var(--linearis-reading-balance) !important;
-	padding-right: var(--linearis-gutter-width) !important;
+.workspace-leaf-content .markdown-preview-view.linearis-enabled.linearis-side-right {
+	margin-left: 0;
+	margin-right: 0;
+	padding-left: var(--linearis-reading-balance);
+	padding-right: var(--linearis-gutter-width);
 }
 
 /* ---------- Shared gutter overlay ---------- */
+
+.linearis-gutter.is-hidden {
+	display: none;
+}
+
+.linearis-gutter.is-pinned {
+	bottom: auto;
+}
+
+.linearis-gutter.is-stretched {
+	top: 0;
+	bottom: 0;
+	height: auto;
+}
 
 .linearis-gutter {
 	position: absolute;
@@ -135,23 +149,23 @@
 }
 
 /* Nested editors (Live Preview table cells, embeds) must not show Linearis */
-.cm-table-widget .linearis-gutter,
-.cm-embed-block .linearis-gutter,
-.internal-embed .linearis-gutter,
-.markdown-embed .linearis-gutter,
-table .linearis-gutter {
-	display: none !important;
+.workspace-leaf-content .cm-table-widget .linearis-gutter,
+.workspace-leaf-content .cm-embed-block .linearis-gutter,
+.workspace-leaf-content .internal-embed .linearis-gutter,
+.workspace-leaf-content .markdown-embed .linearis-gutter,
+.workspace-leaf-content table .linearis-gutter {
+	display: none;
 }
 
-.cm-table-widget .cm-editor.linearis-enabled,
-.cm-embed-block .cm-editor.linearis-enabled,
-.internal-embed .cm-editor.linearis-enabled,
-.markdown-embed .cm-editor.linearis-enabled,
-table .cm-editor.linearis-enabled {
-	margin-left: 0 !important;
-	margin-right: 0 !important;
-	padding-left: 0 !important;
-	padding-right: 0 !important;
+.workspace-leaf-content .cm-table-widget .cm-editor.linearis-enabled,
+.workspace-leaf-content .cm-embed-block .cm-editor.linearis-enabled,
+.workspace-leaf-content .internal-embed .cm-editor.linearis-enabled,
+.workspace-leaf-content .markdown-embed .cm-editor.linearis-enabled,
+.workspace-leaf-content table .cm-editor.linearis-enabled {
+	margin-left: 0;
+	margin-right: 0;
+	padding-left: 0;
+	padding-right: 0;
 }
 
 /* ---------- Mobile ---------- */

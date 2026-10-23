@@ -23,9 +23,9 @@ Open **Settings → Community plugins → Linearis**:
 
 ## Commands
 
-- **Cycle editing Linearis (left / right / off)**
-- **Cycle reading Linearis (left / right / off)**
-- **Set editing/reading Linearis: left|right|off**
+- **Cycle editing placement (left / right / off)**
+- **Cycle reading placement (left / right / off)**
+- **Set editing/reading placement: left|right|off**
 
 ## Install (local development)
 
