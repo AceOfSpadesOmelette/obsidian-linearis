@@ -23,3 +23,11 @@ Under **Backup**, **Export settings** and **Import settings** save or restore th
 - **Cycle reading placement (left / right / off)**
 - **Set editing placement: left**, **right**, or **off**
 - **Set reading placement: left**, **right**, or **off**
+
+## Support
+
+[![Buy Me a Coffee](https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png)](https://buymeacoffee.com/aceofspadesomelette)
+
+## Star history
+
+[![Star History Chart](https://api.star-history.com/svg?repos=AceOfSpadesOmelette/obsidian-linearis&type=Date)](https://www.star-history.com/#AceOfSpadesOmelette/obsidian-linearis&Date)
